@@ -1,7 +1,7 @@
 import random
 
-objetos = []
-cidades = []
+objetos = ['CANETA', 'LÁPIS', 'BORRACHA']
+cidades = ['HONG KONG']
 comidas = ['ARROZ', 'FEIJÃO', 'MACARRÃO']
 
 
@@ -22,22 +22,27 @@ while resp == 'S':
         sorteio = random.randint(0, tamanho)
         palavra_aleatoria = objetos[sorteio]
 
-        pal_secreta = list('_' * len(palavra_aleatoria))
     elif categoria == 'Comidas':
-        tamanho = len(cidades) - 1
-        sorteio = random.randint(0, tamanho)
-        palavra_aleatoria = cidades[sorteio]
-
-        pal_secreta = list('_' * len(palavra_aleatoria))
-    elif categoria == 'Cidade':
         tamanho = len(comidas) - 1
         sorteio = random.randint(0, tamanho)
         palavra_aleatoria = comidas[sorteio]
 
-        pal_secreta = list('_' * len(palavra_aleatoria))
+    elif categoria == 'Cidade':
+        tamanho = len(cidades) - 1
+        sorteio = random.randint(0, tamanho)
+        palavra_aleatoria = cidades[sorteio]
+
     else:
         print('Categoria Inválida')
+
+    for p in palavra_aleatoria:
+        if p == ' ':
+            pal_secreta += ' '
+        else:
+            pal_secreta += '_'
+
     while erros < 7:
+
         print(''.join(pal_secreta))
         letra_digitada = input('Digite somente uma letra: \n').upper()
 
@@ -48,13 +53,13 @@ while resp == 'S':
                 letras.append(letra_digitada)
                 for i in range(len(palavra_aleatoria)):
                     if palavra_aleatoria[i] == letra_digitada:
-                        pal_secreta[i] = letra_digitada
+                        pal_secreta = pal_secreta[:i] + letra_digitada + pal_secreta[i + 1:]
                 print('Letra correta!')
 
                 if '_' not in pal_secreta:
                     print('Parabéns, você ganhou!')
                     print('A palavra era:', palavra_aleatoria)
-                    resp = input('Deseja iniciar? (S - Sim  ||  N - Não)\n').upper()
+                    resp = input('Deseja jogar novamente? (S - Sim  ||  N - Não)\n').upper()
         else:
             erros = erros + 1
             print("  _______     ")
@@ -116,7 +121,6 @@ while resp == 'S':
                 print("_|___         ")
                 print('Você perdeu! :(')
                 resp = input('Deseja iniciar? (S - Sim  ||  N - Não)\n').upper()
-
 
 
 print('Que pena, até breve então')
